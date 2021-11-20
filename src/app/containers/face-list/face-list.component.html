@@ -1,0 +1,11 @@
+<app-image-picker (addImage)="addImages($event)"></app-image-picker>
+
+<hr />
+
+<div class="grid">  
+  <ng-container *ngFor="let face of faces; let index = index;">
+    <div aria-label="click to remove" class="img-item" style="background-image: url({{face.src}});">
+      <a class="remove" (click)="removeImage(index)">x</a>
+    </div>
+  </ng-container>
+</div>

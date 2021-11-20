@@ -1,0 +1,26 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(250px, 350px) );
+  gap: 1em;
+}
+
+.img-item {
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  height: 350px;
+  border: 1px solid #ecececef;
+
+  .remove {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    background: #ecececef;
+    border-radius: 50%;
+    line-height: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+  }
+}

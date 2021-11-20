@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "5109d8ba-9086-40b2-8ee4-70c1f89fb77e"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -20,6 +23,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@tensorflow/tfjs-core"
+            ],
             "outputPath": "dist/face-match-demo",
             "index": "src/index.html",
             "main": "src/main.ts",

@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'face-match-demo';
+  menu: {path: string, label: string}[] = [
+    {
+      label: 'List',
+      path: 'face'
+    },
+    {
+      label: 'Match',
+      path: 'match'
+    }
+  ]
+
+  constructor() {}
 }
