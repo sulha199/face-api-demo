@@ -20,8 +20,10 @@ export class ImagePickerComponent implements OnInit {
   }
   
   async uploadImage() {
+    if (!this.imgFileUpload.nativeElement.value) { return }
     const imgFiles = Array.from(this.imgFileUpload.nativeElement?.files || [])
     const imgs = await Promise.all(imgFiles.map(async imgFile => await bufferToImage(imgFile)))
     this.addImage.emit(imgs)
+    this.imgFileUpload.nativeElement.value = ''
   }
 }

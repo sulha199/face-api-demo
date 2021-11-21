@@ -1,4 +1,25 @@
-<app-image-picker (addImage)="matchImage($event[0])"></app-image-picker>
-<h3>{{ score }}</h3>
-
-<img [src]="image?.src" />
+<ng-container *ngIf="filteredDescriptors.length > 0; else noSourceImage">
+  <app-image-picker (addImage)="matchImage($event[0])"></app-image-picker>
+  <div *ngIf="image?.src; else matchInstruction;" class="container">
+    <img class="image" [src]="image?.src" />
+  </div>
+  
+  <p *ngIf="scores.length > 0" >Matching score compared against below source images:</p>
+  <div class="compare">
+    <ng-container *ngFor="let face of faces; let index=index">
+      <div *ngIf="!!face && scores[index] != null" class="compare__item">
+        <div class="compare__item__img" style="background-image: url({{face.src}});"></div>
+        <ng-container *ngIf="scores[index] != null">
+          <div class="compare__item__bar" style="width:{{ (1 - (scores[index] ?? 0)) * 100 }}%;"></div>
+          <div class="compare__item__text">Match Score: {{ (1 - (scores[index] ?? 0)) * 100 | number : '1.1-2'}} %</div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>  
+</ng-container>
+<ng-template #matchInstruction>
+  <p >Please enter image to compare against below source images.</p>
+</ng-template>
+<ng-template #noSourceImage>
+  <p>Please go to "List" menu to enter source images.</p>
+</ng-template>

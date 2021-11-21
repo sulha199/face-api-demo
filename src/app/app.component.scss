@@ -1,0 +1,6 @@
+.menu {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(100px, 350px) );
+  gap: 5px;
+  border-bottom: 2px solid #ececee;
+}

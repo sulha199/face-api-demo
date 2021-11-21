@@ -6,7 +6,8 @@ import { FaceService } from 'src/app/services/face-service.service';
   styleUrls: ['./face-list.component.scss']
 })
 export class FaceListComponent implements OnInit {
-  public faces = this.faceService.faces
+  public readonly faces = this.faceService.faces
+  public readonly filteredDescriptors = this.faceService.filteredDescriptors
 
   constructor(public faceService: FaceService) { }
 

@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
 import { computeFaceDescriptor, ComputeSingleFaceDescriptorTask, detectSingleFace, euclideanDistance, FaceDetection, FaceLandmarks68, nets, TNetInput, WithFaceDescriptor, WithFaceDetection, WithFaceLandmarks } from 'face-api.js'
 
+export enum FaceDirection {
+  left = 'left',
+  right = 'right',
+  front = 'front'
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class FaceService {
-  public faces: HTMLImageElement[] = []
-  public descriptors: Float32Array[] = []
+  public readonly faces: (HTMLImageElement | null)[] = []
+  public readonly descriptors: (Float32Array | null)[] = []
+  public readonly faceDirections: FaceDirection[] = []
+  public get filteredDescriptors() {
+    return this.descriptors.filter(descriptor => !!descriptor)
+  }
 
   constructor() {
     nets.ssdMobilenetv1.loadFromUri('./assets/face-api.js/models/ssd_mobilenetv1')
@@ -25,20 +35,27 @@ export class FaceService {
   }
 
   removeFace(index: number) {
-    this.faces.splice(index, 1)
+    this.faces[index] = null
     this.descriptors.splice(index, 1)
   }
 
-  async getMatchScore(input: TNetInput) {
-    if (this.descriptors.length === 0) { return 0 }
+  async getAvgMatchDistance(input: TNetInput) {
+    const descriptors = this.filteredDescriptors
+    const arrayDistance = await this.getArrayMatchDistance(input)
+    return arrayDistance.reduce((sum: number, value) =>  sum + ( value ?? 0), 0) / (descriptors.length || 1)
+  }
+
+  async getArrayMatchDistance(input: TNetInput): Promise<(number | null)[]> {
+    const result: (number | null)[] = new Array(this.descriptors.length).fill(null)
+    const filteredDescriptors = this.filteredDescriptors;
+    if (filteredDescriptors.length === 0) { return result }
     const inputDescriptor = await this.getSingleFaceDescriptor(input)
-    if (!inputDescriptor) { return 0 }
-    const sumScore = await this.descriptors.reduce(async (sumPromise, descriptor) => {
-      const score = await euclideanDistance(descriptor, inputDescriptor);
-      const sum = await sumPromise;
-      return Promise.resolve(sum + score);
-    }, Promise.resolve(0));
-    return sumScore / (this.descriptors.length || 1)
+    if (!inputDescriptor) { return result }
+    await this.descriptors.forEach(async (descriptor, index) => {
+      if (!descriptor) { return }
+      result[index] = await euclideanDistance(descriptor, inputDescriptor);
+    });
+    return result
   }
 
   private async getSingleFaceDescriptor(input: TNetInput) {

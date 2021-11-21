@@ -2,10 +2,17 @@
 
 <hr />
 
+<div>
+  <p *ngIf="filteredDescriptors.length === 0">Please enter images as source images.</p>
+  <p *ngIf="filteredDescriptors.length > 0">Here are your source images.</p>
+</div>
+
 <div class="grid">  
   <ng-container *ngFor="let face of faces; let index = index;">
-    <div aria-label="click to remove" class="img-item" style="background-image: url({{face.src}});">
-      <a class="remove" (click)="removeImage(index)">x</a>
-    </div>
+    <ng-container *ngIf="face">
+      <div aria-label="click to remove" class="img-item" style="background-image: url({{face?.src}});">
+        <a class="remove" (click)="removeImage(index)">x</a>
+      </div>
+    </ng-container>
   </ng-container>
 </div>
