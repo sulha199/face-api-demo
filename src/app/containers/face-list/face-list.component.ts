@@ -9,7 +9,6 @@ export class FaceListComponent implements OnInit {
   public readonly faces = this.faceService.faces
   public readonly descriptors = this.faceService.descriptors
   public readonly filteredDescriptors = this.faceService.filteredDescriptors
-  public readonly log = console.log
   public readonly stringify = JSON.stringify
 
   constructor(public faceService: FaceService) { }
@@ -23,5 +22,11 @@ export class FaceListComponent implements OnInit {
 
   removeImage(index: number) {
     this.faceService.removeFace(index)
+  }
+
+  log(descriptor: Float32Array) {
+    const array = Object.values(descriptor)
+    console.log(array)
+    console.log(this.stringify(array))
   }
 }
