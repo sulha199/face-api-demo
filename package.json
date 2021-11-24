@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:gh": "ng build --base-href=https://sulha199.github.io/face-api-demo/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

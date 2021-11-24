@@ -7,7 +7,10 @@ import { FaceService } from 'src/app/services/face-service.service';
 })
 export class FaceListComponent implements OnInit {
   public readonly faces = this.faceService.faces
+  public readonly descriptors = this.faceService.descriptors
   public readonly filteredDescriptors = this.faceService.filteredDescriptors
+  public readonly log = console.log
+  public readonly stringify = JSON.stringify
 
   constructor(public faceService: FaceService) { }
 

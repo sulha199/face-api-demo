@@ -12,6 +12,7 @@
     <ng-container *ngIf="face">
       <div aria-label="click to remove" class="img-item" style="background-image: url({{face?.src}});">
         <a class="remove" (click)="removeImage(index)">x</a>
+        <a class="log" (click)="log(descriptors[index]);log(stringify(descriptors[index]))">L</a>
       </div>
     </ng-container>
   </ng-container>
