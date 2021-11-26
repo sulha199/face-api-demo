@@ -6,7 +6,7 @@
   
   <p *ngIf="scores.length > 0" >Matching score compared against below source images:</p>
   <div class="chart">
-    <app-chart-line [title]="'Distance Value against current image'" [datasets]="chartData?.datasets!"></app-chart-line>
+    <app-chart-line [title]="'Distance Value against current image'" [datasets]="chartData?.datasets!" [max]="0.2" [min]="-0.2" [step]="0.05"></app-chart-line>
   </div>
   <div class="compare">
     <ng-container *ngFor="let face of faces; let index=index">

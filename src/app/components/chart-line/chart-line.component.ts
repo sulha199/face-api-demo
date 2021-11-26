@@ -10,11 +10,14 @@ import { Chart, ChartDataset } from 'chart.js';
 export class ChartLineComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() datasets: ChartDataset[] = []
   @Input() labels: string[] = new Array(128).fill('')
-  @Input() title: string = 'Chart'
+  @Input() title: string = 'Chart'  
+  @Input() max = 0.5;
+  @Input() min = -0.5;
+  @Input() step = 0.1;
   
   @ViewChild('chartRef', {read: ElementRef}) chartRef!: ElementRef<HTMLCanvasElement>
   chart?: Chart 
-  
+
   constructor() { }
 
   ngAfterViewInit() {
@@ -26,10 +29,10 @@ export class ChartLineComponent implements OnInit, OnChanges, AfterViewInit {
           yAxes: {
             display: true,
             ticks: {
-              stepSize: 0.1
+              stepSize: this.step
             },
-            max: 0.5,
-            min: -0.5
+            max: this.max,
+            min: this.min
           }
         }
       },
