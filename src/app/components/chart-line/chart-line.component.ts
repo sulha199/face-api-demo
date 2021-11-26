@@ -48,7 +48,7 @@ export class ChartLineComponent implements OnInit, OnChanges, AfterViewInit {
 
   private getChartData() {
     return {
-      datasets: this.datasets,
+      datasets: this.datasets ? this.datasets.map(data => ({ ...data, backgroundColor: data?.borderColor } as any)) : [],
       labels: this.labels
     };
   }
