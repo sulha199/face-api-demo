@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { computeFaceDescriptor, ComputeSingleFaceDescriptorTask, detectSingleFace, euclideanDistance, FaceDetection, FaceLandmarks68, nets, TNetInput, WithFaceDescriptor, WithFaceDetection, WithFaceLandmarks } from 'face-api.js'
+import { calculateDistance } from './util';
 
 export enum FaceDirection {
   left = 'left',
@@ -53,12 +54,12 @@ export class FaceService {
     if (!inputDescriptor) { return result }
     await this.descriptors.forEach(async (descriptor, index) => {
       if (!descriptor) { return }
-      result[index] = await euclideanDistance(descriptor, inputDescriptor);
+      result[index] = calculateDistance(descriptor, inputDescriptor);
     });
     return result
   }
 
-  private async getSingleFaceDescriptor(input: TNetInput) {
+  public async getSingleFaceDescriptor(input: TNetInput) {
     const faceDetection = await detectSingleFace(input).withFaceLandmarks().withFaceDescriptor()
     return faceDetection?.descriptor
   }

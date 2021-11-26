@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  position: relative;
+  min-height: 100px;
+}
+
+h1 {
+  line-height: 1em;
+  padding: 0;
+  margin: 0;
+}
+
+canvas {
+  max-width: 100%;
+  max-height: calc(100% - 2em);
+}

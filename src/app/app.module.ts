@@ -6,13 +6,18 @@ import { AppComponent } from './app.component';
 import { FaceListComponent } from './containers/face-list/face-list.component';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { FaceMatchComponent } from './containers/face-match/face-match.component';
+import { ChartLineComponent } from './components/chart-line/chart-line.component';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @NgModule({
   declarations: [
     AppComponent,
     FaceListComponent,
     ImagePickerComponent,
-    FaceMatchComponent
+    FaceMatchComponent,
+    ChartLineComponent
   ],
   imports: [
     BrowserModule,

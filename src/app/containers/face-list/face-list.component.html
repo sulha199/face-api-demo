@@ -7,10 +7,15 @@
   <p *ngIf="filteredDescriptors.length > 0">Here are your source images.</p>
 </div>
 
+<div class="chart">
+  <app-chart-line [title]="'Descriptors Value Chart'" [datasets]="chartData?.datasets!"></app-chart-line>
+</div>
+
 <div class="grid">  
   <ng-container *ngFor="let face of faces; let index = index;">
     <ng-container *ngIf="face">
       <div aria-label="click to remove" class="img-item" style="background-image: url({{face?.src}});">
+        <a>#{{index}}</a>
         <a class="remove" (click)="removeImage(index)">x</a>
         <a class="log" (click)="log(descriptors[index]!)">L</a>
       </div>

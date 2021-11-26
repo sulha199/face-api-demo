@@ -4,6 +4,10 @@
   gap: 1em;
 }
 
+app-chart-line {
+  height: calc(70vh - 2rem);
+}
+
 .img-item {
   position: relative;
   background-position: center;
@@ -11,11 +15,8 @@
   height: 350px;
   border: 1px solid #ecececef;
 
-  .remove {
+  a {
     position: absolute;
-    right: 5px;
-    top: 5px;
-    cursor: pointer;
     background: #ecececef;
     border-radius: 50%;
     line-height: 1.5em;
@@ -23,16 +24,15 @@
     height: 1.5em;
     text-align: center;
   }
+
+  .remove {
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+  }
   .log {
-    position: absolute;
     right: 2em;
     top: 5px;
     cursor: pointer;
-    background: #ecececef;
-    border-radius: 50%;
-    line-height: 1.5em;
-    width: 1.5em;
-    height: 1.5em;
-    text-align: center;
   }
 }

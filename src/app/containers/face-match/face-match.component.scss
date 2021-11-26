@@ -2,6 +2,10 @@
   max-height: 300px;
 }
 
+app-chart-line {
+  height: calc(70vh - 2rem);
+}
+
 .compare {
   display: grid;
   grid-template-columns: repeat( auto-fit, minmax(150px, 250px) );
@@ -10,6 +14,16 @@
     position: relative;
     height: 200px;
     border: 1px solid #aaa;
+
+    a {
+      position: absolute;
+      background: #ecececef;
+      border-radius: 50%;
+      line-height: 1.5em;
+      width: 1.5em;
+      height: 1.5em;
+      text-align: center;
+    }
     &__img {
       display: block;
       width: 100%;
