@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { computeFaceDescriptor, ComputeSingleFaceDescriptorTask, detectSingleFace, euclideanDistance, FaceDetection, FaceLandmarks68, nets, TNetInput, WithFaceDescriptor, WithFaceDetection, WithFaceLandmarks } from 'face-api.js'
+import { detectSingleFace, nets, TNetInput } from 'face-api.js'
 import { calculateDistance } from './util';
 
 export enum FaceDirection {
