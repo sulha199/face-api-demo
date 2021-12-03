@@ -1,12 +1,16 @@
 <ng-container *ngIf="filteredDescriptors.length > 0; else noSourceImage">
   <app-image-picker (addImage)="matchImage($event[0])"></app-image-picker>
+  <br/>
+  <app-webcam-input (capture)="matchImage($event)"></app-webcam-input>
+  <br/>
+  Minkowsky Weight: <input #inputWeight [value]="minkowskyParam" (change)="changeParam(inputWeight.value)">
   <div *ngIf="image?.src; else matchInstruction;" class="container">
     <img class="image" [src]="image?.src" />
   </div>
   
   <p *ngIf="scores.length > 0" >Matching score compared against below source images:</p>
   <div class="chart">
-    <app-chart-line [title]="'Distance Value against current image'" [datasets]="chartData?.datasets!" [max]="0.2" [min]="-0.2" [step]="0.05"></app-chart-line>
+    <app-chart-line [title]="'Distance Value against current image'" [datasets]="chartData?.datasets!" [max]="0.15" [min]="0" [step]="0.01"></app-chart-line>
   </div>
   <div class="compare">
     <ng-container *ngFor="let face of faces; let index=index">

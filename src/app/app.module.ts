@@ -8,6 +8,7 @@ import { ImagePickerComponent } from './components/image-picker/image-picker.com
 import { FaceMatchComponent } from './containers/face-match/face-match.component';
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { Chart, registerables } from 'chart.js';
+import { WebcamInputComponent } from './components/webcam-input/webcam-input.component';
 
 Chart.register(...registerables);
 
@@ -17,7 +18,8 @@ Chart.register(...registerables);
     FaceListComponent,
     ImagePickerComponent,
     FaceMatchComponent,
-    ChartLineComponent
+    ChartLineComponent,
+    WebcamInputComponent
   ],
   imports: [
     BrowserModule,

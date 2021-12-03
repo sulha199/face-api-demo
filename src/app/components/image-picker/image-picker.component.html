@@ -1,1 +1,1 @@
-<input #imgFileUpload id="imgFileUpload" type="file" (change)="uploadImage()" accept=".jpg, .jpeg, .png" [multiple]="multiple">
+File Input: <input #imgFileUpload id="imgFileUpload" type="file" (change)="uploadImage()" [accept]="extensions" [multiple]="multiple">

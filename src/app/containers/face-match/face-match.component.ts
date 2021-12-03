@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BubbleDataPoint, ChartData, ChartTypeRegistry, ScatterDataPoint } from 'chart.js';
 import { FaceService } from 'src/app/services/face-service.service';
+import { CONFIG } from 'src/app/services/util';
 const randomcolor = require ('randomcolor')
 
 @Component({
@@ -14,6 +15,7 @@ export class FaceMatchComponent implements OnInit {
   public readonly faces = this.faceService.faces
   public scores: (number | null)[] = [] 
   public chartData?: ChartData<keyof ChartTypeRegistry, (number | ScatterDataPoint | BubbleDataPoint | null)[], string>
+  readonly minkowskyParam = CONFIG.minkowskyWeight
 
   constructor(public faceService: FaceService) { }
 
@@ -33,12 +35,16 @@ export class FaceMatchComponent implements OnInit {
     this.chartData = {
       datasets: this.scores.map((score, scoreIndex) => {
         return {
-          data: score != null ? inputDescriptorArray.map((inputValue, index) => inputValue - this.descriptors![scoreIndex]![index]): [],
+          data: score != null ? inputDescriptorArray.map((inputValue, index) => Math.abs(inputValue - this.descriptors![scoreIndex]![index])): [],
           label: `#${scoreIndex}`,
           borderColor: randomcolor(),
           borderWidth: 2
         }
       })
     }
+  }
+
+  changeParam(value: string) {
+    CONFIG.minkowskyWeight = parseInt(value)
   }
 }

@@ -1,0 +1,40 @@
+:host {
+  position: relative;
+  text-align: center;
+  &.popup {
+    position: absolute;
+    z-index: 999;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 1px 1px 14px 0px rgba(0,0,0,0.75);
+  }
+}
+
+video {
+  transform: rotateY(180deg);
+}
+
+canvas {
+  display: none;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+
+  span {
+    white-space: nowrap;
+  }
+
+  &.absolute {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.hidden {
+  display: none;
+}
