@@ -1,7 +1,7 @@
 <ng-container *ngIf="filteredDescriptors.length > 0; else noSourceImage">
   <app-image-picker (addImage)="matchImage($event[0])"></app-image-picker>
   <br/>
-  <app-webcam-input (capture)="matchImage($event)"></app-webcam-input>
+  <app-webcam-face-input (capture)="matchImage($event)"></app-webcam-face-input>
   <br/>
   Minkowsky Weight: <input #inputWeight [value]="minkowskyParam" (change)="changeParam(inputWeight.value)">
   <div *ngIf="image?.src; else matchInstruction;" class="container">

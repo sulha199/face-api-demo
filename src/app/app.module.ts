@@ -9,6 +9,9 @@ import { FaceMatchComponent } from './containers/face-match/face-match.component
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { Chart, registerables } from 'chart.js';
 import { WebcamInputComponent } from './components/webcam-input/webcam-input.component';
+import { WebcamFaceInputComponent } from './components/webcam-face-input/webcam-face-input.component';
+import { PeekToSideDetectorComponent } from './components/peek-to-side-detector/peek-to-side-detector.component';
+import { FaceYawComponent } from './containers/face-yaw/face-yaw.component';
 
 Chart.register(...registerables);
 
@@ -19,7 +22,10 @@ Chart.register(...registerables);
     ImagePickerComponent,
     FaceMatchComponent,
     ChartLineComponent,
-    WebcamInputComponent
+    WebcamInputComponent,
+    WebcamFaceInputComponent,
+    PeekToSideDetectorComponent,
+    FaceYawComponent
   ],
   imports: [
     BrowserModule,

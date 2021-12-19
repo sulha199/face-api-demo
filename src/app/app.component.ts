@@ -15,6 +15,10 @@ export class AppComponent {
     {
       label: 'Match',
       path: 'match'
+    },
+    {
+      label: 'Peeking detector',
+      path: 'yaw'
     }
   ]
 

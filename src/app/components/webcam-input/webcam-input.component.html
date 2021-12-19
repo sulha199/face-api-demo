@@ -1,4 +1,4 @@
-<video #videoRef [srcObject]="stream" (play)="onPlay(videoRef)" [class.hidden]="!shouldPlay" id="videoRef" autoplay muted></video>
+<video #videoRef [srcObject]="stream" (play)="onPlay(videoRef)" [class.hidden]="!shouldPlay" id="videoRef" autoplay muted [width]="width" [height]="height"></video>
 <canvas #overlayRef id="overlayRef"></canvas>
 <div class="buttons" [class.absolute]="shouldPlay">
   <span *ngIf="!shouldPlay">Webcam Input: </span>

@@ -1,0 +1,10 @@
+<video #videoRef crossorigin="anonymous" playsinline="true" [srcObject]="stream" (play)="onPlay(videoRef)" [class.hidden]="!shouldPlay" id="videoRef" autoplay muted></video>
+<canvas #overlayRef id="overlayRef"></canvas>
+<div class="buttons" [class.absolute]="shouldPlay">
+  <span *ngIf="!shouldPlay">Webcam Face Input with validation: </span>
+  <button  *ngIf="!shouldPlay" (click)="startStream()">Start</button>
+  <button  *ngIf="shouldPlay" (click)="stopStream()">Stop</button>
+  <button [disabled]="!isCaptureEnabled" *ngIf="shouldPlay" (click)="onCapture()">Capture</button>
+  <span *ngIf="shouldPlay && !isCaptureEnabled && isLibraryInitialized">Mohon wajah untuk lurus menghadap ke kamera</span>
+  <span *ngIf="!isLibraryInitialized && shouldPlay">Mohon tunggu, sedang meload library</span>
+</div>

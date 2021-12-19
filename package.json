@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "@mediapipe/pose": "^0.5.1635988162",
     "@schematics/angular": "^13.0.3",
     "chart.js": "^3.6.0",
     "face-api.js": "^0.22.2",

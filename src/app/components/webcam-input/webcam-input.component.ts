@@ -1,6 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 
+
 const POPUP_CLASS_NAME = 'popup';
+export const MEDIA_STREAM_PARAMS: MediaTrackConstraints = {
+  facingMode: 'user',
+  width: 1280,
+  height: 780
+};
 @Component({
   selector: 'app-webcam-input',
   templateUrl: './webcam-input.component.html',
@@ -10,12 +16,17 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   @ViewChild('videoRef', {read: ElementRef}) videoRef?: ElementRef<HTMLVideoElement> 
   @ViewChild('overlayRef', {read: ElementRef}) overlayRef?: ElementRef<HTMLCanvasElement> 
 
+  /** Frame per second */
+  @Input() fps = 60
   @Input() shouldPlay = false
   stream?: MediaStream
 
   @Output() capture = new EventEmitter<HTMLImageElement>()
 
-  constructor(private host: ElementRef<HTMLElement>) {  }
+  width = MEDIA_STREAM_PARAMS.width as number
+  height = MEDIA_STREAM_PARAMS.height as number
+
+  constructor(protected host: ElementRef<HTMLElement>) {  }
 
   ngOnInit(): void {
     if (this.shouldPlay) { this.startStream() }
@@ -37,35 +48,54 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   }
 
   async startStream() {
-    this.host.nativeElement.classList.add(POPUP_CLASS_NAME)
-    this.shouldPlay = true
-    this.stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: 'user'
-      }
-    });
+    await this.startStreamInstance();
+    this.updateStartStreamAttribute();
+    this.videoRef?.nativeElement.play()
   }
 
-  stopStream() {
+  async stopStream() {
     this.host.nativeElement.classList.remove(POPUP_CLASS_NAME)
     this.shouldPlay = false
-    this.stream?.getTracks().forEach(track => track.stop());
+    await this.stopStreamInstance();
     this.videoRef?.nativeElement.pause();
   }
 
   onCapture() {
+    if (!this.videoRef) { return }
+    const img = this.getImgFromCanvas();
+    this.capture.emit(img)
+  }
+
+  protected async stopStreamInstance() {
+    this.stream?.getTracks().forEach(track => track.stop());
+  }
+
+  protected async startStreamInstance() {
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      video: MEDIA_STREAM_PARAMS
+    });
+  }
+
+  protected updateStartStreamAttribute() {
+    this.host.nativeElement.classList.add(POPUP_CLASS_NAME);
+    this.shouldPlay = true;
+  }
+
+  getImgFromCanvas() {
     if (!this.videoRef) { return }
     const canvas = document.createElement("canvas");
     const video = this.videoRef?.nativeElement;
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const img = document.createElement("img")
-    img.src = canvas.toDataURL()
-    this.capture.emit(img)
+    const img = document.createElement("img");
+    img.src = canvas.toDataURL();
+    img.width = MEDIA_STREAM_PARAMS.width as number
+    img.height = MEDIA_STREAM_PARAMS.height as number
+    return img;
   }
 
   onPlay(element: HTMLVideoElement) {
-    if (this.shouldPlay) {  setTimeout(() => this.onPlay(element)) }    
+    if (this.shouldPlay) {  setTimeout(() => this.onPlay(element), 1000 / this.fps) }    
   }
 }

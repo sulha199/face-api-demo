@@ -1,0 +1,8 @@
+<video #videoRef crossorigin="anonymous" playsinline="true" [srcObject]="stream" (play)="onPlay(videoRef)" [class.hidden]="!shouldPlay" id="videoRef" autoplay muted></video>
+<div class="pin">
+  Photo pengawas
+</div>
+
+<div class="popup" [class.show]="isPopUpShown">
+  Ada yang bisa kami bantu
+</div>
