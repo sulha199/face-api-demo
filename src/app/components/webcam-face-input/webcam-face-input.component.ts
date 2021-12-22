@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MEDIA_STREAM_PARAMS, WebcamInputComponent } from '../webcam-input/webcam-input.component';
 import { NormalizedLandmark,  Results, ResultsListener, Pose as PoseType, PoseConfig } from '@mediapipe/pose'
-import { getXYRotation, isFacingFront } from 'src/app/model/geometry';
+import { getAxesRotationFromPose, getXYRotation, isAxesFacingFront, isFacingFront, RotationOnAxes } from 'src/app/model/geometry';
 
 export const EYE_WIDTH_TRESHOLD = 0.8
 
@@ -16,11 +16,16 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
   isCaptureEnabled = false
   fps: number = 3;
   isLibraryInitialized = false
+  axesRotation?: RotationOnAxes
 
   constructor(protected host: ElementRef<HTMLElement>, public cdr: ChangeDetectorRef) { 
     super(host)
-    this.initPoseInstance()
    }
+
+  async startStream(): Promise<void> {
+    await super.startStream()
+    await this.initPoseInstance()
+  }
 
   async initPoseInstance() {
     const pose: PoseType = new PoseType({
@@ -38,7 +43,9 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
       minTrackingConfidence: 0.5
     });
     pose.onResults(this.onPoseResult.bind(this))
+    this.isLibraryInitialized = true
     this.pose = pose
+    this.cdr.detectChanges() 
   }
 
   async onPlay(element: HTMLVideoElement) {  
@@ -54,7 +61,9 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
       this.isCaptureEnabled = false
       return
     }
-    const isCaptureEnabled = isFacingFront(result);
+    const axesRotation = getAxesRotationFromPose(result)    
+    const isCaptureEnabled = isAxesFacingFront(axesRotation)
+    this.axesRotation = axesRotation
     if (this.isCaptureEnabled !== isCaptureEnabled) { 
       this.isCaptureEnabled = isCaptureEnabled
       this.cdr.detectChanges() 

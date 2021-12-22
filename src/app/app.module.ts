@@ -12,6 +12,7 @@ import { WebcamInputComponent } from './components/webcam-input/webcam-input.com
 import { WebcamFaceInputComponent } from './components/webcam-face-input/webcam-face-input.component';
 import { PeekToSideDetectorComponent } from './components/peek-to-side-detector/peek-to-side-detector.component';
 import { FaceYawComponent } from './containers/face-yaw/face-yaw.component';
+import { AxesRotationInfoComponent } from './components/axes-rotation-info/axes-rotation-info.component';
 
 Chart.register(...registerables);
 
@@ -25,7 +26,8 @@ Chart.register(...registerables);
     WebcamInputComponent,
     WebcamFaceInputComponent,
     PeekToSideDetectorComponent,
-    FaceYawComponent
+    FaceYawComponent,
+    AxesRotationInfoComponent
   ],
   imports: [
     BrowserModule,

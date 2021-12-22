@@ -6,6 +6,8 @@ export const FACE_FRONT_ANGLE_TRESHOLD: RotationOnAxes = {
   roll: 10
 }
 
+export const MIN_YAW_TRESHOLD = 30;
+
 export interface RotationOnAxes {
   /** positive means it is facing upwards. Negative means its facing downward */
   pitch: number, 
@@ -57,11 +59,20 @@ export function getXYRotation(leftPoint: NormalizedLandmark, rightpoint: Normali
 }
 
 export function isFacingFront(poseResult: Results, treshold: RotationOnAxes = FACE_FRONT_ANGLE_TRESHOLD) {
-  const { leftEyeInner, leftEyeOuter, rightEyeInner, rightEyeOuter, leftEar, rightEar, nose } = getFaceLandmarks(poseResult.poseLandmarks);
-  const rotationOnAxis = getXYRotation(leftEar, rightEar, nose)
+  const rotationOnAxis = getAxesRotationFromPose(poseResult);
   console.log(rotationOnAxis)
-  const faceFront = (Math.abs(rotationOnAxis.roll) < treshold.roll) && (Math.abs(rotationOnAxis.yaw) < treshold.yaw) && (Math.abs(rotationOnAxis.pitch) < treshold.pitch);
+  const faceFront = isAxesFacingFront(rotationOnAxis, treshold);
   return faceFront;
+}
+
+export function getAxesRotationFromPose(poseResult: Results): RotationOnAxes {
+  const { leftEyeInner, leftEyeOuter, rightEyeInner, rightEyeOuter, leftEar, rightEar, nose } = getFaceLandmarks(poseResult.poseLandmarks);
+  const rotationOnAxis = getXYRotation(leftEar, rightEar, nose);
+  return rotationOnAxis;
+}
+
+export function isAxesFacingFront(rotationOnAxis: RotationOnAxes, treshold: RotationOnAxes = FACE_FRONT_ANGLE_TRESHOLD) {
+  return (Math.abs(rotationOnAxis.roll) < treshold.roll) && (Math.abs(rotationOnAxis.yaw) < treshold.yaw) && (Math.abs(rotationOnAxis.pitch) < treshold.pitch);
 }
 
 export function getFaceLandmarks(landmarks: NormalizedLandmark[]) {
@@ -69,8 +80,12 @@ export function getFaceLandmarks(landmarks: NormalizedLandmark[]) {
   return {nose, leftEyeInner, leftEyeCenter, leftEyeOuter, rightEyeInner, rightEyeCenter, rightEyeOuter, leftEar, rightEar, mouthLeft, mouthRight}
 }
 
-export function isYawingToSide(poseResult: Results, minimumYaw: number = 30) {
+export function isYawingToSide(poseResult: Results, minimumYaw: number = MIN_YAW_TRESHOLD) {
   const { leftEar, rightEar, nose } = getFaceLandmarks(poseResult.poseLandmarks);
-  const rotationOnAxis = getXYRotation(leftEar, rightEar, nose)  
+  const rotationOnAxis = getAxesRotationFromPose(poseResult)  
+  return isAxesYawingToSide(rotationOnAxis, minimumYaw);
+}
+
+export function isAxesYawingToSide(rotationOnAxis: RotationOnAxes, minimumYaw: number = MIN_YAW_TRESHOLD) {
   return Math.abs(rotationOnAxis.yaw) > minimumYaw;
 }

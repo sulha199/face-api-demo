@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Results } from '@mediapipe/pose';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
-import { isYawingToSide } from 'src/app/model/geometry';
+import { getAxesRotationFromPose, isAxesYawingToSide, isYawingToSide, RotationOnAxes } from 'src/app/model/geometry';
 import { WebcamFaceInputComponent } from '../webcam-face-input/webcam-face-input.component';
 
 @Component({
@@ -31,7 +31,9 @@ export class PeekToSideDetectorComponent extends WebcamFaceInputComponent implem
       return
     }
 
-    const isYawingToSideVar = isYawingToSide(result)
+    const axesRotation = getAxesRotationFromPose(result)
+    this.axesRotation = axesRotation
+    const isYawingToSideVar = isAxesYawingToSide(axesRotation)
     if (isYawingToSideVar) {
       if (!this._yawTimerInstance$ || this._yawTimerInstance$.closed) {
         this.createTimerInstance()
@@ -39,7 +41,7 @@ export class PeekToSideDetectorComponent extends WebcamFaceInputComponent implem
       } 
     } else {
       this._onYawStop$.next()
-      this._yawTimerInstance$ && (this._yawTimerInstance$.closed = true)
+      this._yawTimerInstance$ && (this._yawTimerInstance$.unsubscribe())
       this.isPopUpShown = false
     }
     if (this.isYawingToSide !== isYawingToSideVar){

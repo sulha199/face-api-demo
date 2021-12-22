@@ -1,3 +1,4 @@
-<h1>Kalau nengok ke samping dalam 5 detik, akan muncul pesan di kanan bawah</h1>
+<h1>Kalau nengok ke samping(abs(yaw) > 30) dalam 5 detik, akan muncul pesan di kanan bawah</h1>
 
-<app-peek-to-side-detector></app-peek-to-side-detector>
+<app-peek-to-side-detector #peekDetector></app-peek-to-side-detector>
+<app-axes-rotation-info [axesRotation]="peekDetector?.axesRotation"></app-axes-rotation-info>

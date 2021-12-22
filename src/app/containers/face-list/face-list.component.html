@@ -3,8 +3,8 @@
 <br/>
 <app-webcam-input (capture)="addImages([$event])"></app-webcam-input>
 <br/>
-<app-webcam-face-input (capture)="addImages([$event])"></app-webcam-face-input>
-
+<app-webcam-face-input #faceInput (capture)="addImages([$event])"></app-webcam-face-input>
+<app-axes-rotation-info [axesRotation]="faceInput?.axesRotation"></app-axes-rotation-info>
 <hr />
 
 <div>
