@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,9 +13,15 @@ import { WebcamFaceInputComponent } from './components/webcam-face-input/webcam-
 import { PeekToSideDetectorComponent } from './components/peek-to-side-detector/peek-to-side-detector.component';
 import { FaceYawComponent } from './containers/face-yaw/face-yaw.component';
 import { AxesRotationInfoComponent } from './components/axes-rotation-info/axes-rotation-info.component';
+import  { createCustomElement } from '@angular/elements';
 
 Chart.register(...registerables);
 
+const COMPONENTS_LIBRARY = {
+  'webcam-face-input': WebcamFaceInputComponent,
+  'webcam-input': WebcamInputComponent,
+  'peek-detector': PeekToSideDetectorComponent
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +40,15 @@ Chart.register(...registerables);
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, WebcamInputComponent, WebcamFaceInputComponent, WebcamInputComponent]
 })
-export class AppModule { }
+export class AppModule {
+  components = COMPONENTS_LIBRARY
+  constructor(private injector: Injector) {
+    Object.keys(this.components).forEach(key => {
+      const element = createCustomElement(this.components[key], { injector });
+      customElements.define(key, element);
+    })
+  }
+  ngDoBootstrap() {}
+}
