@@ -60,7 +60,7 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
     this.videoRef?.nativeElement.pause();
   }
 
-  onCapture() {
+  async onCapture() {
     if (!this.videoRef) { return }
     const img = this.getImgFromCanvas();
     this.capture.emit(img)
@@ -81,17 +81,17 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
     this.shouldPlay = true;
   }
 
-  getImgFromCanvas() {
+  getImgFromCanvas(sx: number = 0, sy: number = 0, sw?: number, sh?: number) {
     if (!this.videoRef) { return }
     const canvas = document.createElement("canvas");
     const video = this.videoRef?.nativeElement;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.width = sw ?? video.videoWidth;
+    canvas.height = sh ?? video.videoHeight;
+    canvas.getContext('2d')?.drawImage(video, sx, sy,canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
     const img = document.createElement("img");
     img.src = canvas.toDataURL();
-    img.width = MEDIA_STREAM_PARAMS.width as number
-    img.height = MEDIA_STREAM_PARAMS.height as number
+    img.width = canvas.width
+    img.height = canvas.height
     return img;
   }
 

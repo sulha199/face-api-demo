@@ -60,7 +60,11 @@ export class FaceService {
   }
 
   public async getSingleFaceDescriptor(input: TNetInput) {
-    const faceDetection = await detectSingleFace(input).withFaceLandmarks().withFaceDescriptor()
+    const faceDetection = await this.getSingleFace(input)
     return faceDetection?.descriptor
+  }
+
+  public async getSingleFace(input: TNetInput) {
+    return await detectSingleFace(input).withFaceLandmarks().withFaceDescriptor();
   }
 }
