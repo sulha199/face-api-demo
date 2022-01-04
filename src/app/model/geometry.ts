@@ -67,7 +67,12 @@ export function isFacingFront(poseResult: Results, treshold: RotationOnAxes = FA
 
 export function getAxesRotationFromPose(poseResult: Results): RotationOnAxes {
   const { leftEyeInner, leftEyeOuter, rightEyeInner, rightEyeOuter, leftEar, rightEar, nose } = getFaceLandmarks(poseResult.poseLandmarks);
-  const rotationOnAxis = getXYRotation(leftEar, rightEar, nose);
+  const centerOfEyes: NormalizedLandmark = {
+    x: (leftEyeInner.x + rightEyeInner.x)/ 2,
+    y: (leftEyeInner.y + rightEyeInner.y)/ 2,
+    z: (leftEyeInner.z + rightEyeInner.z)/ 2
+  }
+  const rotationOnAxis = getXYRotation(leftEar, rightEar, centerOfEyes);
   return rotationOnAxis;
 }
 
