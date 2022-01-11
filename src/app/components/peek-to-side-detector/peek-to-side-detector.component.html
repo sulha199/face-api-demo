@@ -1,3 +1,4 @@
+<app-webcam-list *ngIf="!shouldPlay"  (selectCamera)="cameraId=$event"></app-webcam-list>
 <video #videoRef crossorigin="anonymous" playsinline="true" [srcObject]="stream" (play)="onPlay(videoRef)" [class.hidden]="!shouldPlay" id="videoRef" autoplay muted></video>
 <div class="pin">
   Photo pengawas
