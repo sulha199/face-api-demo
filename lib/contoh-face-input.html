@@ -7,7 +7,10 @@
 <link rel="stylesheet" href="styles.css"></head>
 <body>
   <!-- ini adalah element face-inputnya -->
-  <webcam-face-input (captureFaceImage)="console.log('faceImage',$event)" (captureFaceDescriptor)="console.log('faceDescriptor',$event)"></webcam-face-input>
+  <webcam-face-input></webcam-face-input>
+  <webcam-input></webcam-input>
+  <peek-detector></peek-detector>
+
   
   <!-- ini JS script yang perlu di include-->
   <script src="runtime.js" defer></script>
@@ -20,6 +23,7 @@
     faceInput.addEventListener('captureFullImage', (event) => console.log('fullImage', event.detail))
     faceInput.addEventListener('captureFaceDescriptor', (event) => console.log('faceDescriptor', event.detail))
     faceInput.addEventListener('captureFaceImage', (event) => console.log('faceImage', event.detail))
+    
     faceInput.addEventListener('captureFaceRotation', (event) => console.log('faceRotation', event.detail))
   </script>
 
