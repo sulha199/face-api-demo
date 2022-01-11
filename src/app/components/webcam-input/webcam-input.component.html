@@ -2,7 +2,8 @@
 <canvas #overlayRef id="overlayRef"></canvas>
 <div class="buttons" [class.absolute]="shouldPlay">
   <span *ngIf="!shouldPlay">Webcam Input: </span>
-  <button  *ngIf="!shouldPlay" (click)="startStream()">Start</button>
+  <app-webcam-list *ngIf="!shouldPlay"  (selectCamera)="cameraId=$event"></app-webcam-list>
+  <button [disabled]="!cameraId" *ngIf="!shouldPlay" (click)="startStream()">Start</button>
   <button  *ngIf="shouldPlay" (click)="stopStream()">Stop</button>
   <button  *ngIf="shouldPlay" (click)="onCapture()">Capture</button>
 </div>

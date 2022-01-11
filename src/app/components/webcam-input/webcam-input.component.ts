@@ -4,8 +4,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Afte
 const POPUP_CLASS_NAME = 'popup';
 export const MEDIA_STREAM_PARAMS: MediaTrackConstraints = {
   facingMode: 'user',
-  width: 1280,
-  height: 780
+  width: { ideal: 1280, min: 640},
+  height: {ideal: 780, min: 480},
 };
 @Component({
   selector: 'app-webcam-input',
@@ -25,7 +25,7 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
 
   width = MEDIA_STREAM_PARAMS.width as number
   height = MEDIA_STREAM_PARAMS.height as number
-
+  cameraId?: string | null
   constructor(protected host: ElementRef<HTMLElement>) {  }
 
   ngOnInit(): void {
@@ -50,7 +50,6 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   async startStream() {
     await this.startStreamInstance();
     this.updateStartStreamAttribute();
-    this.videoRef?.nativeElement.play()
   }
 
   async stopStream() {
@@ -71,9 +70,14 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   }
 
   protected async startStreamInstance() {
+    const videoParam: MediaTrackConstraints = {...MEDIA_STREAM_PARAMS}
+    if (this.cameraId) { videoParam.deviceId = this.cameraId }
     this.stream = await navigator.mediaDevices.getUserMedia({
-      video: MEDIA_STREAM_PARAMS
+      video: videoParam
     });
+    const { width, height } = this.stream.getVideoTracks()[0].getSettings()
+    if (width)  {this.width = width }
+    if (height) {this.height = height}
   }
 
   protected updateStartStreamAttribute() {
@@ -97,5 +101,31 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
 
   onPlay(element: HTMLVideoElement) {
     if (this.shouldPlay) {  setTimeout(() => this.onPlay(element), 1000 / this.fps) }    
+  }
+
+  selectCamera(event: Event) {
+    this.cameraId = (event.target as any)?.value
+  }
+}
+
+@Component({
+  selector: 'app-webcam-list',
+  templateUrl: './webcam-list.component.html',
+})
+export class WebcamListComponent implements OnInit {
+  cameraList$ = this.getCameraList()
+  @Output() selectCamera = new EventEmitter<string>()
+
+  async ngOnInit() {
+    const defaultCamera = (await this.cameraList$).find(camera => camera.deviceId)
+    if (defaultCamera) { this.selectCamera.emit(defaultCamera?.deviceId) }
+  }
+
+  getCameraList() {
+    return navigator.mediaDevices.enumerateDevices()
+  }
+
+  onSelectCamera(event: Event) {
+    this.selectCamera.emit((event.target as any)?.value)
   }
 }

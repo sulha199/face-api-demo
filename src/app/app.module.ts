@@ -8,7 +8,7 @@ import { ImagePickerComponent } from './components/image-picker/image-picker.com
 import { FaceMatchComponent } from './containers/face-match/face-match.component';
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { Chart, registerables } from 'chart.js';
-import { WebcamInputComponent } from './components/webcam-input/webcam-input.component';
+import { WebcamInputComponent, WebcamListComponent } from './components/webcam-input/webcam-input.component';
 import { WebcamFaceInputComponent } from './components/webcam-face-input/webcam-face-input.component';
 import { PeekToSideDetectorComponent } from './components/peek-to-side-detector/peek-to-side-detector.component';
 import { FaceYawComponent } from './containers/face-yaw/face-yaw.component';
@@ -33,7 +33,8 @@ const COMPONENTS_LIBRARY = {
     WebcamFaceInputComponent,
     PeekToSideDetectorComponent,
     FaceYawComponent,
-    AxesRotationInfoComponent
+    AxesRotationInfoComponent,
+    WebcamListComponent
   ],
   imports: [
     BrowserModule,
