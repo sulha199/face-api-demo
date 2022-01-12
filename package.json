@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:gh": "ng build --base-href=https://sulha199.github.io/face-api-demo/",
-    "build:lib": "ng build --prod --output-hashing none --output-path lib",
+    "build:lib": "ng build --prod --output-hashing none --output-path lib  && del lib\\index.html",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
