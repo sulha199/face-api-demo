@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { detectSingleFace, nets, TNetInput } from 'face-api.js'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,9 @@ import { detectSingleFace, nets, TNetInput } from 'face-api.js'
 export class FaceService {
 
   constructor() {
-    nets.ssdMobilenetv1.loadFromUri('./assets/face-api.js/models/ssd_mobilenetv1')
-    nets.faceLandmark68Net.loadFromUri('./assets/face-api.js/models/face_landmark_68')
-    nets.faceRecognitionNet.loadFromUri('./assets/face-api.js/models/face_recognition')
+    nets.ssdMobilenetv1.loadFromUri(environment.production ? environment.faceApiSourceUrl : `${environment.faceApiSourceUrl}/ssd_mobilenetv1`)
+    nets.faceLandmark68Net.loadFromUri(environment.production ? environment.faceApiSourceUrl : `${environment.faceApiSourceUrl}/face_landmark_68`)
+    nets.faceRecognitionNet.loadFromUri(environment.production ? environment.faceApiSourceUrl : `${environment.faceApiSourceUrl}/face_recognition`)
   }
 
   public async getSingleFaceDescriptor(input: TNetInput) {

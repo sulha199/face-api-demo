@@ -38,7 +38,7 @@
               {
                 "glob": "**/*",
                 "input": "./node_modules/@mediapipe/pose/",
-                "output": "./assets/"
+                "output": "./assets/pose"
               }
             ],
             "styles": [
@@ -66,7 +66,11 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "assets": [
+                "src/favicon.ico",
+                { "glob": "**/*", "input": "src/assets", "ignore": ["**/face-api.js/models/**/*"], "output": "/assets" }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -85,7 +89,11 @@
                 }
               ],
               "outputHashing": "none",
-              "outputPath": "lib"
+              "outputPath": "lib",
+              "assets": [
+                "src/favicon.ico",
+                { "glob": "**/*", "input": "src/assets", "ignore": ["**/face-api.js/models/**/*"], "output": "/assets" }
+              ]
             }
           },
           "defaultConfiguration": "production"

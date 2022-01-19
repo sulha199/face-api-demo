@@ -20,11 +20,7 @@ export class FaceDataService {
     return this.descriptors.filter(descriptor => !!descriptor)
   }
 
-  constructor(private faceService: FaceService) {
-    nets.ssdMobilenetv1.loadFromUri('./assets/face-api.js/models/ssd_mobilenetv1')
-    nets.faceLandmark68Net.loadFromUri('./assets/face-api.js/models/face_landmark_68')
-    nets.faceRecognitionNet.loadFromUri('./assets/face-api.js/models/face_recognition')
-  }
+  constructor(private faceService: FaceService) {}
 
   /** Insert new face and returns the new length of the array,
    * or return -1 if no face found

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  faceApiSourceUrl: './assets/face-api.js/models', // without ending slash
+  mediaPipeSourceUrl: './assets/pose' // without ending slash
 };
 
 /*

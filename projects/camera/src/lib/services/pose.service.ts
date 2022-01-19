@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NormalizedLandmark,  Results, ResultsListener, Pose as PoseClass, PoseConfig, Options } from '@mediapipe/pose'
+import { environment } from 'src/environments/environment';
 
 export const DEFAULT_POSE_OPTIONS: Options = {
   modelComplexity: 1,
@@ -47,7 +48,7 @@ export class PoseService {
   private async createTempPoseInstance() {
     const pose: PoseClass = new PoseClass({
       locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1635988162/${file}`;
+        return `${environment.mediaPipeSourceUrl}/${file}`;
       }
     } as PoseConfig);
     await pose.initialize();
