@@ -57,7 +57,7 @@
     }
   </style>
   <body>
-    <form action="action_page.php">
+    <form id="form" method="POST">
       <div class="container">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
@@ -82,9 +82,11 @@
 
         <hr>   
         
-        <button type="submit" class="registerbtn">Register</button>
+
       </div>
     </form>
+
+    <button onclick="return submit(event)" type="button" class="registerbtn" value="Submit form"></button>
 
     <!-- ini JS script yang perlu di include-->
     <script src="runtime.js" defer></script>
@@ -113,6 +115,24 @@
       faceInput.addEventListener('captureFaceRotation', (event) => {
         console.log('faceRotation', event.detail)
       })
+
+      var formEl = document.getElementById("form")
+      var form = new FormData(formEl);
+      console.log(formEl)
+      formEl.addEventListener('submit', submit)
+  function submit(event)  {
+    console.log('submit')
+    fetch('http://localhost:3000/api/example', {
+      method: 'post',
+      body: new URLSearchParams(form),
+    })
+    .then(() => {});
+    event.preventDefault();
+    return false
+  }
     </script>
+
+<script>
+</script>
   </body>
 </html>
