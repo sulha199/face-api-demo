@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Results } from '@mediapipe/pose';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
-import { getAxesRotationFromPose, isAxesYawingToSide, isYawingToSide, RotationOnAxes } from 'src/app/model/geometry';
+import { getAxesRotationFromPose, isAxesYawingToSide, isYawingToSide, RotationOnAxes } from 'projects/camera/src/lib/model/geometry';
 import { WebcamFaceInputComponent } from '../webcam-face-input/webcam-face-input.component';
 
 @Component({

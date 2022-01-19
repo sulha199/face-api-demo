@@ -1,0 +1,20 @@
+
+@import '../webcam-input/webcam-input.component.scss';
+:host {
+  
+  &.popup {
+    width: auto;
+  }
+
+  .video-div {
+    min-width: 70vw;
+    min-height: 20vh;
+    ::ng-deep {
+      video {
+        min-width: inherit;
+        min-height: inherit;
+      }
+    }
+  }
+
+}

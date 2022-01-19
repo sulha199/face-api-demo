@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { detectSingleFace, nets, TNetInput } from 'face-api.js'
+import { FaceService } from 'projects/camera/src';
 import { calculateDistance } from './util';
 
 export enum FaceDirection {
@@ -11,7 +12,7 @@ export enum FaceDirection {
 @Injectable({
   providedIn: 'root'
 })
-export class FaceService {
+export class FaceDataService {
   public readonly faces: (HTMLImageElement | null)[] = []
   public readonly descriptors: (Float32Array | null)[] = []
   public readonly faceDirections: FaceDirection[] = []
@@ -19,7 +20,7 @@ export class FaceService {
     return this.descriptors.filter(descriptor => !!descriptor)
   }
 
-  constructor() {
+  constructor(private faceService: FaceService) {
     nets.ssdMobilenetv1.loadFromUri('./assets/face-api.js/models/ssd_mobilenetv1')
     nets.faceLandmark68Net.loadFromUri('./assets/face-api.js/models/face_landmark_68')
     nets.faceRecognitionNet.loadFromUri('./assets/face-api.js/models/face_recognition')
@@ -29,7 +30,7 @@ export class FaceService {
    * or return -1 if no face found
    */
   async addFaceImage(input: HTMLImageElement) {
-    const descriptor = await this.getSingleFaceDescriptor(input)
+    const descriptor = await this.faceService.getSingleFaceDescriptor(input)
     if (!descriptor) {return -1}
     this.descriptors.push(descriptor)
     return this.faces.push(input)
@@ -50,21 +51,12 @@ export class FaceService {
     const result: (number | null)[] = new Array(this.descriptors.length).fill(null)
     const filteredDescriptors = this.filteredDescriptors;
     if (filteredDescriptors.length === 0) { return result }
-    const inputDescriptor = await this.getSingleFaceDescriptor(input)
+    const inputDescriptor = await this.faceService.getSingleFaceDescriptor(input)
     if (!inputDescriptor) { return result }
     await this.descriptors.forEach(async (descriptor, index) => {
       if (!descriptor) { return }
       result[index] = calculateDistance(descriptor, inputDescriptor);
     });
     return result
-  }
-
-  public async getSingleFaceDescriptor(input: TNetInput) {
-    const faceDetection = await this.getSingleFace(input)
-    return faceDetection?.descriptor
-  }
-
-  public async getSingleFace(input: TNetInput) {
-    return await detectSingleFace(input).withFaceLandmarks().withFaceDescriptor();
   }
 }

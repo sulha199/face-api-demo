@@ -75,6 +75,17 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "cameraLib": {
+              "main": "src/main.camera.ts",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "none",
+              "outputPath": "lib"
             }
           },
           "defaultConfiguration": "production"
@@ -113,6 +124,37 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        }
+      }
+    },
+    "camera": {
+      "projectType": "library",
+      "root": "projects/camera",
+      "sourceRoot": "projects/camera/src",
+      "prefix": "lib",
+      "architect": {      
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/camera/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/camera/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/camera/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/camera/src/test.ts",
+            "tsConfig": "projects/camera/tsconfig.spec.json",
+            "karmaConfig": "projects/camera/karma.conf.js"
           }
         }
       }

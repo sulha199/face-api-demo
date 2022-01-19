@@ -9,6 +9,7 @@
   },
   "files": [
     "src/main.ts",
+    "src/main.camera.ts",
     "src/polyfills.ts"
   ],
   "include": [

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BubbleDataPoint, ChartData, ChartTypeRegistry, ScatterDataPoint } from 'chart.js';
-import { FaceService } from 'src/app/services/face-service.service';
+import { FaceDataService } from 'src/app/services/face-service.service';
 const randomcolor = require ('randomcolor')
 
 @Component({
@@ -15,7 +15,7 @@ export class FaceListComponent implements OnInit {
 
   public chartData?: ChartData<keyof ChartTypeRegistry, (number | ScatterDataPoint | BubbleDataPoint | null)[], string>
 
-  constructor(public faceService: FaceService) { }
+  constructor(public faceService: FaceDataService) { }
 
   ngOnInit(): void {
     this.loadChartData()

@@ -17,11 +17,12 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   @ViewChild('overlayRef', {read: ElementRef}) overlayRef?: ElementRef<HTMLCanvasElement> 
 
   /** Frame per second */
-  @Input() fps = 60
+  @Input() fps = 20
   @Input() shouldPlay = false
   stream?: MediaStream
 
   @Output() capture = new EventEmitter<HTMLImageElement>()
+  @Output() error = new EventEmitter<any>()
 
   width = MEDIA_STREAM_PARAMS.width as number
   height = MEDIA_STREAM_PARAMS.height as number
@@ -53,8 +54,7 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
   }
 
   async stopStream() {
-    this.host.nativeElement.classList.remove(POPUP_CLASS_NAME)
-    this.shouldPlay = false
+    this.hideElements();
     await this.stopStreamInstance();
     this.videoRef?.nativeElement.pause();
   }
@@ -105,6 +105,11 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
 
   selectCamera(event: Event) {
     this.cameraId = (event.target as any)?.value
+  }
+
+  hideElements() {
+    this.host.nativeElement.classList.remove(POPUP_CLASS_NAME);
+    this.shouldPlay = false;
   }
 }
 

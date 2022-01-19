@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BubbleDataPoint, ChartData, ChartTypeRegistry, ScatterDataPoint } from 'chart.js';
-import { FaceService } from 'src/app/services/face-service.service';
+import { FaceService } from 'projects/camera/src';
+import { FaceDataService } from 'src/app/services/face-service.service';
 import { CONFIG } from 'src/app/services/util';
 const randomcolor = require ('randomcolor')
 
@@ -10,14 +11,14 @@ const randomcolor = require ('randomcolor')
 })
 export class FaceMatchComponent implements OnInit {
   public image?: HTMLImageElement
-  private readonly descriptors = this.faceService.descriptors;
-  public readonly filteredDescriptors = this.faceService.filteredDescriptors
-  public readonly faces = this.faceService.faces
+  private readonly descriptors = this.faceDataService.descriptors;
+  public readonly filteredDescriptors = this.faceDataService.filteredDescriptors
+  public readonly faces = this.faceDataService.faces
   public scores: (number | null)[] = [] 
   public chartData?: ChartData<keyof ChartTypeRegistry, (number | ScatterDataPoint | BubbleDataPoint | null)[], string>
   readonly minkowskyParam = CONFIG.minkowskyWeight
 
-  constructor(public faceService: FaceService) { }
+  constructor(public faceService: FaceService, public faceDataService: FaceDataService) { }
 
   ngOnInit(): void {
   }
@@ -25,7 +26,7 @@ export class FaceMatchComponent implements OnInit {
   async matchImage(image?: HTMLImageElement) {
     this.scores = []
     this.image = image
-    this.scores = image ? await this.faceService.getArrayMatchDistance(image) : []
+    this.scores = image ? await this.faceDataService.getArrayMatchDistance(image) : []
     await this.loadChartData()
   }
 

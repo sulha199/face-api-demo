@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RotationOnAxes } from 'src/app/model/geometry';
+import { RotationOnAxes } from 'projects/camera/src/lib/model/geometry';
 
 @Component({
   selector: 'app-axes-rotation-info',

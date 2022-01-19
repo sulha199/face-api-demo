@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FaceDataService } from './face-service.service';
+import { PoseServiceService } from './pose-service.service';
 
-describe('FaceServiceService', () => {
-  let service: FaceDataService;
+describe('PoseServiceService', () => {
+  let service: PoseServiceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FaceDataService);
+    service = TestBed.inject(PoseServiceService);
   });
 
   it('should be created', () => {

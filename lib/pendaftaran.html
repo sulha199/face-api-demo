@@ -80,6 +80,11 @@
 
         <webcam-face-input id="face-input"></webcam-face-input>
 
+        <label for="qr"><b>Hasil QR scan</b></label>
+        <textarea placeholder="" name="qr" id="qr" ></textarea>
+
+        <webcam-qr-input id="qr-input"></webcam-qr-input>
+
         <hr>   
         
 
@@ -116,20 +121,25 @@
         console.log('faceRotation', event.detail)
       })
 
+      const qrInput = document.querySelector('#qr-input');
+      qrInput.addEventListener('captureText', (event) => {
+        document.querySelector('#qr').value = event.detail
+      })
+
       var formEl = document.getElementById("form")
       var form = new FormData(formEl);
-      console.log(formEl)
       formEl.addEventListener('submit', submit)
-  function submit(event)  {
-    console.log('submit')
-    fetch('http://localhost:3000/api/example', {
-      method: 'post',
-      body: new URLSearchParams(form),
-    })
-    .then(() => {});
-    event.preventDefault();
-    return false
-  }
+  
+      function submit(event)  {
+        console.log('submit')
+        fetch('http://localhost:3000/api/example', {
+          method: 'post',
+          body: new URLSearchParams(form),
+        })
+        .then(() => {});
+        event.preventDefault();
+        return false
+      }
     </script>
 
 <script>

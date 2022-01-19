@@ -7,6 +7,16 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "paths": {
+      "camera": [
+        "dist/camera/camera",
+        "dist/camera"
+      ],
+      "face": [
+        "dist/face/face",
+        "dist/face"
+      ]
+    },
     "noImplicitReturns": true,
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": true,

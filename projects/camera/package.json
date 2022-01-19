@@ -1,0 +1,14 @@
+{
+  "name": "camera",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0",
+    "face-api.js": "^0.22.2",
+    "html5-qrcode": "^2.1.6",
+    "@mediapipe/pose": "^0.5.1635988162"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

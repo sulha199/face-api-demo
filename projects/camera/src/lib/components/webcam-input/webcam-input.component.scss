@@ -10,11 +10,16 @@
     box-shadow: 1px 1px 14px 0px rgba(0,0,0,0.75);
     max-height: 90vh;
     width: 95vw;
+    min-height: 10vh;
+    min-width: 30vw;
+    background-color: #fff;
   }
 }
 
 video {
   transform: rotateY(180deg);
+  min-height: inherit;
+  min-width: inherit;
   max-height: 100%;
   max-width: 100%;
 }

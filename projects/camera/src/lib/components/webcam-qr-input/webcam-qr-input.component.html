@@ -1,0 +1,7 @@
+<div #videoRef [class.hidden]="!shouldPlay" [id]="videoRefId" class="video-div"></div>
+<div class="buttons" [class.absolute]="shouldPlay">
+  <span *ngIf="!shouldPlay">Qr Input: </span>
+  <app-webcam-list *ngIf="!shouldPlay"  (selectCamera)="cameraId=$event"></app-webcam-list>
+  <button [disabled]="!cameraId" *ngIf="!shouldPlay" (click)="startStream()" type="button">Start</button>
+  <button  *ngIf="shouldPlay" (click)="stopStream()" type="button">Stop</button>
+</div>

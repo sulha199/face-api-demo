@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MEDIA_STREAM_PARAMS, WebcamInputComponent } from '../webcam-input/webcam-input.component';
 import { NormalizedLandmark,  Results, ResultsListener, Pose as PoseType, PoseConfig } from '@mediapipe/pose'
-import { getAxesRotationFromPose, getXYRotation, isAxesFacingFront, isFacingFront, RotationOnAxes } from 'src/app/model/geometry';
-import { FaceService } from 'src/app/services/face-service.service';
+import { getAxesRotationFromPose, getXYRotation, isAxesFacingFront, isFacingFront, RotationOnAxes } from 'projects/camera/src/lib/model/geometry';
+import { FaceService } from '../../services/face.service';
+import { PoseService } from '../../services';
 
 export const EYE_WIDTH_TRESHOLD = 0.8
 
@@ -22,7 +23,7 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
   @Output() captureFaceDescriptor = new EventEmitter<Float32Array>()
   @Output() captureFaceImage = new EventEmitter<HTMLImageElement>()
 
-  constructor(protected host: ElementRef<HTMLElement>, public cdr: ChangeDetectorRef, public faceService: FaceService) { 
+  constructor(protected host: ElementRef<HTMLElement>, public cdr: ChangeDetectorRef, public faceService: FaceService, public poseService: PoseService) { 
     super(host)
    }
 
@@ -31,24 +32,9 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
     await this.initPoseInstance()
   }
 
-  async initPoseInstance() {
-    const pose: PoseType = new PoseType({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1635988162/${file}`;
-      }
-    } as PoseConfig);
-    await pose.initialize()
-    pose.setOptions({
-      modelComplexity: 1,
-      smoothLandmarks: true,
-      enableSegmentation: true,
-      smoothSegmentation: true,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
-    });
-    pose.onResults(this.onPoseResult.bind(this))
+  async initPoseInstance() {    
+    this.pose = await this.poseService.getPoseInstance(this.onPoseResult.bind(this))
     this.isLibraryInitialized = true
-    this.pose = pose
     this.cdr.detectChanges() 
   }
 
@@ -60,6 +46,7 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
   }
 
   async onCapture() {
+    this.videoRef?.nativeElement.pause()
     super.onCapture()
     const img = this.getImgFromCanvas();
     if (img) {
@@ -73,6 +60,7 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
         this.captureFaceDescriptor.emit(face?.descriptor)
       }
     }
+    this.videoRef?.nativeElement.play()
   }
 
   onPoseResult(result: Results) {
