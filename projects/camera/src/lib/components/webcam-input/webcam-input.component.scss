@@ -37,6 +37,7 @@
         border-radius: 30%;
         border-bottom-right-radius: 50%;
         border-bottom-left-radius: 50%;
+        box-shadow: 1px -1px 30vw 25vw rgb(0 0 0 / 40%);
       }
       .v-line {
         position: absolute;
@@ -44,9 +45,9 @@
         top: 0px;
         left: 50%;
         height: 100%;
-        transform: translateX(-50%);   
+        transform: translateX(calc(-50% + 1px));   
         display: block;
-        border: 1px dotted gold;
+        border-left: 1px dotted gold;
         width: 0%;
       }
       .h-line {
@@ -57,7 +58,7 @@
         width: 100%;
         transform: translateY(-50%);   
         display: block;
-        border: 1px dotted gold;
+        border-top: 1px dotted gold;
       }
       .h-line-2 {
         top: 42%;
