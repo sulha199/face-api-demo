@@ -1,18 +1,71 @@
 :host {
   position: relative;
   text-align: center;
+  .overlay {
+    display: none;
+  }
+
   &.popup {
-    position: absolute;
+    position: fixed;
     z-index: 999;
-    top: 10vh;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-50%);
     box-shadow: 1px 1px 14px 0px rgba(0,0,0,0.75);
     max-height: 90vh;
-    width: 95vw;
+    width: auto;
     min-height: 10vh;
     min-width: 30vw;
     background-color: #fff;
+
+    .overlay {
+      display: block;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+
+      .box {
+        position: absolute;
+        pointer-events: inherit;
+        left: 50%;
+        top: 30%;
+        transform: translateX(-50%) translateY(-30%);   
+        display: block;
+        border: 3px solid greenyellow;
+        width: 30%;
+        padding-top: 40%;
+        border-radius: 30%;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+      }
+      .v-line {
+        position: absolute;
+        pointer-events: inherit;
+        top: 0px;
+        left: 50%;
+        height: 100%;
+        transform: translateX(-50%);   
+        display: block;
+        border: 1px dotted gold;
+        width: 0%;
+      }
+      .h-line {
+        position: absolute;
+        pointer-events: inherit;
+        left: 0px;
+        top: 32%;
+        width: 100%;
+        transform: translateY(-50%);   
+        display: block;
+        border: 1px dotted gold;
+      }
+      .h-line-2 {
+        top: 42%;
+      }
+      .h-line-3 {
+        top: 52%;
+      }
+    }
   }
 }
 
@@ -20,8 +73,11 @@ video {
   transform: rotateY(180deg);
   min-height: inherit;
   min-width: inherit;
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 90vh;
+  max-width: 90vw;
+  height: auto;
+  width: auto;
+  position: relative;
 }
 
 canvas {

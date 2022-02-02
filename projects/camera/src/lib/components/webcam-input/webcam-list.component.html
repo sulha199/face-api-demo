@@ -1,5 +1,5 @@
 <select (change)="onSelectCamera($event)">
   <ng-container *ngFor="let camera of (cameraList$ | async)" >
-    <option *ngIf="camera.deviceId" [value]="camera.deviceId">{{ camera.label }}</option>
+    <option *ngIf="camera.deviceId" [value]="camera.deviceId" [selected]="camera.deviceId === cameraId">{{ camera.label }}</option>
   </ng-container>
 </select>

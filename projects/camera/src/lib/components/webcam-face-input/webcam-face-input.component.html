@@ -2,10 +2,18 @@
 <canvas #overlayRef id="overlayRef"></canvas>
 <div class="buttons" [class.absolute]="shouldPlay">
   <span *ngIf="!shouldPlay">Webcam Face Input with validation: </span>
-  <app-webcam-list *ngIf="!shouldPlay" (selectCamera)="cameraId=$event"></app-webcam-list>
+  <app-webcam-list *ngIf="!shouldPlay" (selectCamera)="cameraId=$event" [cameraId]="cameraId"></app-webcam-list>
   <button  *ngIf="!shouldPlay" (click)="startStream()" type="button">Start</button>
   <button  *ngIf="shouldPlay" (click)="stopStream()" type="button">Stop</button>
   <button [disabled]="!isCaptureEnabled" *ngIf="shouldPlay" (click)="onCapture()" type="button">Capture</button>
   <span *ngIf="shouldPlay && !isCaptureEnabled && isLibraryInitialized">Mohon wajah untuk lurus menghadap ke kamera</span>
   <span *ngIf="!isLibraryInitialized && shouldPlay">Mohon tunggu, sedang meload library</span>
+</div>
+<div class="overlay">
+  <div class="box">
+    <div class="v-line"></div> 
+    <div class="h-line"></div>  
+    <div class="h-line h-line-2"></div> 
+    <div class="h-line h-line-3"></div>   
+  </div>
 </div>

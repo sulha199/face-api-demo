@@ -3,7 +3,6 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Afte
 
 const POPUP_CLASS_NAME = 'popup';
 export const MEDIA_STREAM_PARAMS: MediaTrackConstraints = {
-  facingMode: 'user',
   width: { ideal: 1280, min: 640},
   height: {ideal: 780, min: 480},
 };
@@ -119,15 +118,18 @@ export class WebcamInputComponent implements OnInit, AfterViewInit, OnDestroy, O
 })
 export class WebcamListComponent implements OnInit {
   cameraList$ = this.getCameraList()
+  @Input() cameraId?: string | null
   @Output() selectCamera = new EventEmitter<string>()
 
   async ngOnInit() {
-    const defaultCamera = (await this.cameraList$).find(camera => camera.deviceId)
-    if (defaultCamera) { this.selectCamera.emit(defaultCamera?.deviceId) }
+    this.cameraId = this.cameraId ?? (await this.cameraList$)[0]?.deviceId
+    if (this.cameraId) { this.selectCamera.emit(this.cameraId) }
   }
 
-  getCameraList() {
-    return navigator.mediaDevices.enumerateDevices()
+  async getCameraList() {
+    const media = await navigator.mediaDevices.getUserMedia({video: true})
+    media.getTracks().forEach(track => track.stop());
+    return  (await navigator.mediaDevices.enumerateDevices()).filter(device => device.label && device.deviceId)
   }
 
   onSelectCamera(event: Event) {

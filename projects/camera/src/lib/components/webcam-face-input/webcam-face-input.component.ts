@@ -53,8 +53,8 @@ export class WebcamFaceInputComponent extends WebcamInputComponent {
       const face = await this.faceService.getSingleFace(img)
       if (face?.detection) {
         const { left, top, width, height } = face.detection.box
-        const factor = 0.1
-        const sizeFactor = 1 + 2 * factor
+        const factor = 0.3
+        const sizeFactor = 1.0 + (2 * factor)
         const faceImage = this.getImgFromCanvas(Math.max(left - width * factor, 0), Math.max(top  - height * factor, 0), width * sizeFactor, height * sizeFactor)
         this.captureFaceImage.emit(faceImage!)
         this.captureFaceDescriptor.emit(face?.descriptor)
