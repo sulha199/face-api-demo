@@ -69,7 +69,12 @@
               "outputHashing": "all",
               "assets": [
                 "src/favicon.ico",
-                { "glob": "**/*", "input": "src/assets", "ignore": ["**/face-api.js/models/**/*"], "output": "/assets" }
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/@mediapipe/pose/",
+                  "output": "./assets/pose"
+                }
               ]
             },
             "development": {
@@ -92,7 +97,12 @@
               "outputPath": "lib",
               "assets": [
                 "src/favicon.ico",
-                { "glob": "**/*", "input": "src/assets", "ignore": ["**/face-api.js/models/**/*"], "output": "/assets" }
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "./node_modules/@mediapipe/pose/",
+                  "output": "./assets/pose"
+                }
               ]
             }
           },
